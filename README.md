@@ -1,5 +1,13 @@
 # Membuat Pencarian Daftar Buku di Perpustakaan Menggunakan Hashtable
 
+## Kelompok 10
+* Nuraima
+* Sheryl
+* Ahmad W
+* Riswanto
+* Nadhif
+* Ihsan Fajar R.
+
 ## Deskripsi
 
 Proyek ini bertujuan untuk membangun program yang dapat melakukan pencarian daftar buku di perpustakaan menggunakan struktur data hashtable. Program ini akan memungkinkan pengguna untuk mencari buku berdasarkan judul, penulis, atau ISBN.
