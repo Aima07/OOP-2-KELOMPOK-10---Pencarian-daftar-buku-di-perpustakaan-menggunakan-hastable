@@ -1,12 +1,12 @@
 # Membuat Pencarian Daftar Buku di Perpustakaan Menggunakan Hashtable
 
 ## Kelompok 10
-* Nuraima
-* Sheryl
-* Ahmad W
-* Riswanto
-* Nadhif
-* Ihsan Fajar R.
+* Nuraima - [Aima07](https://github.com/Aima07)
+* Sheryl - [sherylpdes](https://github.com/sherylpdes)
+* Ahmad W - [wilzzadex](https://github.com/wilzzadex)
+* Riswanto - [Riswantou](https://github.com/Riswantou)
+* Nadhif - [nzrnadhif](https://github.com/nzrnadhif)
+* Ihsan Fajar R. - [Ihsanfrr](https://github.com/ihsanfrr)
 
 ## Deskripsi
 
