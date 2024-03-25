@@ -4,11 +4,8 @@
  */
 package bookfinder;
 
-import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JProgressBar;
-import javax.swing.UIManager;
 
 /**
  *
@@ -21,16 +18,8 @@ public class SplashScreen extends javax.swing.JFrame {
      */
     public SplashScreen() {
         initComponents();
-        initUI();
+
         loading();
-    }
-    
-    public final void initUI() {
-        String hexColor = "#B0263D";
-        Color color = Color.decode(hexColor);
-        
-        JProgressBar pBar = new JProgressBar();
-        pBar.setForeground(color);
     }
     
     public final void loading() {
@@ -43,7 +32,7 @@ public class SplashScreen extends javax.swing.JFrame {
                         progressBar.setValue(i);
                         Thread.sleep(50);
                         if(i == 100) {
-                            new HomeScreen().setVisible(true);
+                            new AuthScreen().setVisible(true);
                             setVisible(false);
                         }
                     } catch (InterruptedException ex) {
@@ -74,6 +63,7 @@ public class SplashScreen extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bookfinder/Images/harvard.png"))); // NOI18N
 
         progressBar.setForeground(new java.awt.Color(176, 38, 61));
+        progressBar.setBorder(null);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
