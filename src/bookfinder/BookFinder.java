@@ -14,7 +14,7 @@ public class BookFinder {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new HomeScreen().setVisible(true);
+        new SplashScreen().setVisible(true);
     }
     
 }
