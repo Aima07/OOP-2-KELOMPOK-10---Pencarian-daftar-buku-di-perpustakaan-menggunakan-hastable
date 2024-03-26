@@ -206,7 +206,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnLogout" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButton2" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButton5" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButton6" alignment="0" max="32767" attributes="0"/>
@@ -230,7 +230,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jButton2" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="btnLogout" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -244,7 +244,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnLogout">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="3d" green="26" red="b0" type="rgb"/>
@@ -258,7 +258,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLogoutActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton2">
@@ -335,6 +335,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Reset"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
