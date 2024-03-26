@@ -5,10 +5,16 @@
 package bookfinder;
 
 
+import java.awt.Color;
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.Comparator;
 import javax.swing.*;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -41,6 +47,7 @@ public class HomeScreen extends javax.swing.JFrame {
         btnCari = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableBuku = new javax.swing.JTable();
+        btnClear = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(529, 269));
@@ -75,21 +82,32 @@ public class HomeScreen extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableBuku);
 
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCari, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(42, Short.MAX_VALUE))
+                        .addComponent(btnCari, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,7 +116,8 @@ public class HomeScreen extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCari))
+                    .addComponent(btnCari)
+                    .addComponent(btnClear))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(17, Short.MAX_VALUE))
@@ -114,60 +133,78 @@ public class HomeScreen extends javax.swing.JFrame {
     Hashtable<Integer, Buku> hashtable = new Hashtable<>();
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
         // TODO add your handling code here:
+
         String keyword = txtSearch.getText().trim();
-        if(keyword.isEmpty()){
+        if (keyword.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Kata kunci tidak boleh kosong !.");
             return;
         }
-        
-        StringBuilder result = new StringBuilder();
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
         for (Integer key : hashtable.keySet()) {
             Buku buku = hashtable.get(key);
             if (buku.getIsbn().contains(keyword) ||
                 buku.getJudul().toLowerCase().contains(keyword.toLowerCase()) ||
                 buku.getPengarang().toLowerCase().contains(keyword.toLowerCase()) ||
                 buku.getPenerbit().toLowerCase().contains(keyword.toLowerCase())) {
-                result.append("ISBN: ").append(buku.getIsbn()).append("\n")
-                      .append("Judul: ").append(buku.getJudul()).append("\n")
-                      .append("Pengarang: ").append(buku.getPengarang()).append("\n")
-                      .append("Penerbit: ").append(buku.getPenerbit()).append("\n")
-                      .append("Rak: ").append(buku.getRak()).append("\n")
-                      .append("Stok: ").append(buku.getStok()).append("\n\n");
+
+                // Create a JLabel for each book information
+                JLabel label = new JLabel("<html><body>"
+                        + "<h3>ISBN: " + buku.getIsbn() + "</h3>"
+                        + "<h4>Judul: " + buku.getJudul() + "</h4><br>"
+                        + "<p>Pengarang: " + buku.getPengarang() + "<br>"
+                        + "Penerbit: " + buku.getPenerbit() + "<br>"
+                        + "Rak: " + buku.getRak() + "<br>"
+                        + "Stok: " + buku.getStok() + "</p>"
+                        + "<br>"
+                        + "<img src='" + buku.getCoverUrl() + "' width='150' height='210'>"
+                        + "</body></html>");
+
+                // Add the JLabel to the JPanel
+                Border border = BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.BLACK),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 10 pixels of margin
+                label.setBorder(border);
+                panel.add(label);
             }
         }
 
-        if (result.length() == 0) {
+        if (panel.getComponentCount() == 0) {
             JOptionPane.showMessageDialog(this, "Tidak ada hasil yang ditemukan.");
         } else {
-            JOptionPane.showMessageDialog(this, result.toString());
+            // Create a JScrollPane for the JPanel
+            JScrollPane scrollPane = new JScrollPane(panel);
+            JOptionPane.showMessageDialog(null, scrollPane);
         }
         
     }//GEN-LAST:event_btnCariActionPerformed
-
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         
         
-        hashtable.put(1, new Buku("9780061120084", "The Alchemist", "Paulo Coelho", "HarperOne", "A1", 5));
-        hashtable.put(2, new Buku("9780142437209", "To Kill a Mockingbird", "Harper Lee", "Harper Perennial", "B2", 3));
-        hashtable.put(3, new Buku("9780544003415", "The Lord of the Rings", "J.R.R. Tolkien", "Mariner Books", "C3", 7));
-        hashtable.put(4, new Buku("9780140283334", "1984", "George Orwell", "Signet Classics", "D4", 2));
-        hashtable.put(5, new Buku("9780140449334", "Pride and Prejudice", "Jane Austen", "Penguin Classics", "E5", 4));
-        hashtable.put(6, new Buku("9780679720201", "Norwegian Wood", "Haruki Murakami", "Vintage Books", "F6", 6));
-        hashtable.put(7, new Buku("9780062315007", "The Great Gatsby", "F. Scott Fitzgerald", "Scribner", "A2", 1));
-        hashtable.put(8, new Buku("9780060935467", "Beloved", "Toni Morrison", "Vintage", "B3", 8));
-        hashtable.put(9, new Buku("9780743273565", "The Catcher in the Rye", "J.D. Salinger", "Little, Brown", "C4", 3));
-        hashtable.put(10, new Buku("9780061120084", "The Alchemist", "Paulo Coelho", "HarperOne", "D5", 5));
-        hashtable.put(11, new Buku("9780374530874", "The Road", "Cormac McCarthy", "Vintage", "E6", 2));
-        hashtable.put(12, new Buku("9781400032716", "The Kite Runner", "Khaled Hosseini", "Riverhead Books", "F1", 6));
-        hashtable.put(13, new Buku("9780385484510", "Slaughterhouse-Five", "Kurt Vonnegut", "Dial Press", "A3", 3));
-        hashtable.put(14, new Buku("9780062073488", "The Bell Jar", "Sylvia Plath", "Harper Perennial", "B4", 7));
-        hashtable.put(15, new Buku("9781400033416", "A Thousand Splendid Suns", "Khaled Hosseini", "Riverhead Books", "C5", 4));
-        hashtable.put(16, new Buku("9780143105985", "The Picture of Dorian Gray", "Oscar Wilde", "Penguin Classics", "D6", 5));
-        hashtable.put(17, new Buku("9780143039433", "One Hundred Years of Solitude", "Gabriel Garcia Marquez", "Harper Perennial", "E1", 9));
-        hashtable.put(18, new Buku("9780062315007", "The Great Gatsby", "F. Scott Fitzgerald", "Scribner", "F2", 1));
-        hashtable.put(19, new Buku("9781594480003", "The Road", "Cormac McCarthy", "Vintage", "A4", 4));
-        hashtable.put(20, new Buku("9780446310789", "To Kill a Mockingbird", "Harper Lee", "Warner Books", "B5", 2));
+        hashtable.put(1, new Buku("9780061120084", "The Alchemist", "Paulo Coelho", "HarperOne", "A1", 5,"https://cdn-v2.theculturetrip.com/610x921/wp-content/uploads/2015/06/alchemist.webp"));
+        hashtable.put(2, new Buku("9780142437209", "To Kill a Mockingbird", "Harper Lee", "Harper Perennial", "B2", 3,"https://cdn2.penguin.com.au/covers/original/9781785150357.jpg "));
+        hashtable.put(3, new Buku("9780544003415", "The Lord of the Rings", "J.R.R. Tolkien", "Mariner Books", "C3", 7,"https://www.bibdsl.co.uk/imagegallery/bookdata/cd427/9780261103252.JPG "));
+        hashtable.put(4, new Buku("9780140283334", "1984", "George Orwell", "Signet Classics", "D4", 2,"https://live.staticflickr.com/65535/5264195495_16c0ce80d6_b.jpg "));
+        hashtable.put(5, new Buku("9780140449334", "Pride and Prejudice", "Jane Austen", "Penguin Classics", "E5", 4,"https://th.bing.com/th/id/OIP.4uvk-hCrj_dT2KcN3rTLOAAAAA?w=198&h=304&c=7&r=0&o=5&pid=1.7"));
+        hashtable.put(6, new Buku("9780679720201", "Norwegian Wood", "Haruki Murakami", "Vintage Books", "F6", 6,"https://th.bing.com/th/id/OIP.Cr4OWeJ9g_5eDOIc66dzkgHaLc?w=198&h=305&c=7&r=0&o=5&pid=1.7"));
+        hashtable.put(7, new Buku("9780062315007", "The Great Gatsby", "F. Scott Fitzgerald", "Scribner", "A2", 1,"https://th.bing.com/th/id/R.7c5697ee72aae7fe607f69d223740452?rik=sgWxstAv8tg2Eg&riu=http%3a%2f%2fd28hgpri8am2if.cloudfront.net%2fbook_images%2fonix%2fcvr9781471173936%2fthe-great-gatsby-9781471173936_hr.jpg&ehk=Jz0jBOB5sZkGZ0GWHtNFPKtFLQNRZEIuO6rAtLbpOOA%3d&risl=&pid=ImgRaw&r=0"));
+        hashtable.put(8, new Buku("9780060935467", "Beloved", "Toni Morrison", "Vintage", "B3", 8,"https://th.bing.com/th/id/OIP.M5JeTZe9TyiepWmXWIJnDgAAAA?w=198&h=302&c=7&r=0&o=5&pid=1.7"));
+        hashtable.put(9, new Buku("9780743273565", "The Catcher in the Rye", "J.D. Salinger", "Little, Brown", "C4", 3,"https://www.hachettebookgroup.com/wp-content/uploads/2017/06/9780316769488.jpg"));
+        hashtable.put(10, new Buku("9780061120084", "The Alchemist", "Paulo Coelho", "HarperOne", "D5", 5,"https://cdn-v2.theculturetrip.com/610x921/wp-content/uploads/2015/06/alchemist.webp "));
+        hashtable.put(11, new Buku("9780374530874", "The Road", "Cormac McCarthy", "Vintage", "E6", 2,"https://th.bing.com/th/id/OIP.UMK3ZnYpdWXH-8fQeQ3X6QHaLN?w=198&h=299&c=7&r=0&o=5&pid=1.7"));
+        hashtable.put(12, new Buku("9781400032716", "The Kite Runner", "Khaled Hosseini", "Riverhead Books", "F1", 6,"https://th.bing.com/th/id/OIP.nOWyPMT5oB6t7rIjBedw5QHaLg?w=198&h=308&c=7&r=0&o=5&pid=1.7"));
+        hashtable.put(13, new Buku("9780385484510", "Slaughterhouse-Five", "Kurt Vonnegut", "Dial Press", "A3", 3,"https://www.readersdigest.co.uk/media/Slaughterhouse-Five-2.jpg"));
+        hashtable.put(14, new Buku("9780062073488", "The Bell Jar", "Sylvia Plath", "Harper Perennial", "B4", 7,"https://th.bing.com/th/id/OIP.2spRUnuizDWCxAvio8kZLgHaLR?w=198&h=302&c=7&r=0&o=5&pid=1.7"));
+        hashtable.put(15, new Buku("9781400033416", "A Thousand Splendid Suns", "Khaled Hosseini", "Riverhead Books", "C5", 4,"https://th.bing.com/th/id/OIP.hYr3XfE5h-7rjo_fV380NwHaLL?w=178&h=269&c=7&r=0&o=5&pid=1.7"));
+        hashtable.put(16, new Buku("9780143105985", "The Picture of Dorian Gray", "Oscar Wilde", "Penguin Classics", "D6", 5,"https://1.bp.blogspot.com/-pqX5hMyk1aY/YRo_i3Zi_vI/AAAAAAAAA-g/pTVlTxIshbkLvAbpzrNeoh-uOAl7TCx0gCLcBGAsYHQ/s2048/dorian%2Bgray.jpg"));
+        hashtable.put(17, new Buku("9780143039433", "One Hundred Years of Solitude", "Gabriel Garcia Marquez", "Harper Perennial", "E1", 9,"https://th.bing.com/th/id/OIP.j7FnLmZzg3-rR2hbuIaVCgHaLS?w=178&h=271&c=7&r=0&o=5&pid=1.7"));
+        hashtable.put(18, new Buku("9780062315007", "The Great Gatsby", "F. Scott Fitzgerald", "Scribner", "F2", 1,"https://th.bing.com/th/id/R.7c5697ee72aae7fe607f69d223740452?rik=sgWxstAv8tg2Eg&riu=http%3a%2f%2fd28hgpri8am2if.cloudfront.net%2fbook_images%2fonix%2fcvr9781471173936%2fthe-great-gatsby-9781471173936_hr.jpg&ehk=Jz0jBOB5sZkGZ0GWHtNFPKtFLQNRZEIuO6rAtLbpOOA%3d&risl=&pid=ImgRaw&r=0"));
+        hashtable.put(19, new Buku("9781594480003", "The Road", "Cormac McCarthy", "Vintage", "A4", 4,"https://th.bing.com/th/id/OIP.UMK3ZnYpdWXH-8fQeQ3X6QHaLN?w=198&h=299&c=7&r=0&o=5&pid=1.7"));
+        hashtable.put(20, new Buku("9780446310789", "To Kill a Mockingbird", "Harper Lee", "Warner Books", "B5", 2,"https://th.bing.com/th/id/OIP.Mu1VbXiNWT4T1SJ-g0z11AHaL7?w=178&h=286&c=7&r=0&o=5&pid=1.7"));
 
         DefaultTableModel model = (DefaultTableModel) tableBuku.getModel();
 
@@ -177,6 +214,11 @@ public class HomeScreen extends javax.swing.JFrame {
             model.addRow(rowData);
         }
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+        txtSearch.setText("");
+    }//GEN-LAST:event_btnClearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,6 +268,7 @@ public class HomeScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCari;
+    private javax.swing.JButton btnClear;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableBuku;

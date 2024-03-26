@@ -15,14 +15,16 @@ class Buku {
     private String penerbit;
     private String rak;
     private int stok;
+    private String coverUrl;
 
-    public Buku(String isbn, String judul, String pengarang, String penerbit, String rak, int stok) {
+    public Buku(String isbn, String judul, String pengarang, String penerbit, String rak, int stok,String coverUrl) {
         this.isbn = isbn;
         this.judul = judul;
         this.pengarang = pengarang;
         this.penerbit = penerbit;
         this.rak = rak;
         this.stok = stok;
+        this.coverUrl = coverUrl;
     }
 
     public String getIsbn() {
@@ -47,5 +49,9 @@ class Buku {
 
     public int getStok() {
         return stok;
+    }
+    
+    public String getCoverUrl() {
+        return coverUrl;
     }
 }
